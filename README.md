@@ -231,6 +231,36 @@ A simple and straight-forward solution to issue https://github.com/euwbah/musesc
 | ![xu4](images/new/x^4.png) | `x^4` | `DOUBLE_SHARP_EQUAL_TEMPERED` | The double sharp, but with signs above, indicating sharper than double sharp |
 | ![xv4](images/new/xv4.png) | `xv4` | `SAGITTAL_SHARP25SD` | I cannot find an appropriate accidental, so I choose an arbitary one |
 
+## Modification 2
+
+Include 18 extra accidentals supported by Musescore represting 6-arrow accidental (also add some 7-arrow, 8-arrow accidentals for 114 EDO),
+
+The accidentals which are: `bbv5 bb^5 bb^6 bv5 bv6 b^5 b^6 v6 v5 ^5 ^6 ^7 ^8 #v5 #^5 #^6 #^7 xv5`
+
+also fixed wrong accidental turnings of 12 EDO,  19 EDO and 31 EDO (hard code)
+```javascript
+// hardcoded accidental replacing
+if ((edo == 12 || edo == 19) && (acc.numSharps == 0 && acc.numArrows == -1)) {
+    acc.numSharps = -1;
+    acc.numArrows = 0;
+}
+if ((edo == 12 || edo == 19) && (acc.numSharps == -1 && acc.numArrows == -1)) {
+    acc.numSharps = -2;
+    acc.numArrows = 0;
+}
+if (edo == 31 && (acc.numSharps == 0 && acc.numArrows == -2)) {
+    acc.numSharps = -1;
+    acc.numArrows = 0;
+}
+if (edo == 31 && (acc.numSharps == -1 && acc.numArrows == -2)) {
+    acc.numSharps = -2;
+    acc.numArrows = 0;
+}
+
+```
+
+and using python to auto-generate pitch down/up (no dt) tune n-edo QML files (change pitch up.qml only)(for bug fix, change QMLTEMPLATE file in qml-templates directory)(run `constructQMLfile.py`)
+
 -----------------
 
 ## Notation system
