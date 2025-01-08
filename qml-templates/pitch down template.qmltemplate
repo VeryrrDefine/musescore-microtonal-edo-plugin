@@ -272,21 +272,61 @@ MuseScore {
         /* template GNA */
         
         // hardcoded accidental replacing
-        if ((edo == 12 || edo == 19) && (acc.numSharps == 0 && acc.numArrows == -1)) {
+        if ((edo != 5 && sharpValue == 1) && (acc.numSharps == 0 && acc.numArrows == -1)) {
             acc.numSharps = -1;
             acc.numArrows = 0;
         }
-        if ((edo == 12 || edo == 19) && (acc.numSharps == -1 && acc.numArrows == -1)) {
+        if ((edo != 5 && sharpValue == 1) && (acc.numSharps == -1 && acc.numArrows == -1)) {
             acc.numSharps = -2;
             acc.numArrows = 0;
         }
-        if (edo == 31 && (acc.numSharps == 0 && acc.numArrows == -2)) {
+        if ((edo > 10 && sharpValue == 2) && (acc.numSharps == 0 && acc.numArrows == -2)) {
             acc.numSharps = -1;
             acc.numArrows = 0;
         }
-        if (edo == 31 && (acc.numSharps == -1 && acc.numArrows == -2)) {
+        if ((edo > 10 && sharpValue == 2) && (acc.numSharps == -1 && acc.numArrows == -2)) {
             acc.numSharps = -2;
             acc.numArrows = 0;
+        }
+        if (edo == 93 && (acc.numSharps == 0 && acc.numArrows == -6)) {
+            acc.numSharps = -1;
+            acc.numArrows = 0;
+        }
+
+        // make it beautiful(arrows only)
+        // make it beautiful(arrows only)
+        
+        if (edo == 53 && (acc.numSharps < 2 && acc.numArrows > 3)) {
+            acc.numSharps = acc.numSharps + 1 ;
+            acc.numArrows = acc.numArrows - 5;
+        }
+        if (edo == 53 && (acc.numSharps > -2 && acc.numArrows < -3)) {
+            acc.numSharps = acc.numSharps - 1 ;
+            acc.numArrows = acc.numArrows + 5;
+        }
+        if (edo == 54 && (acc.numSharps < 2 && acc.numArrows > 3)) {
+            acc.numSharps = acc.numSharps + 1 ;
+            acc.numArrows = acc.numArrows - 8;
+        }
+        if (edo == 54 && (acc.numSharps > -2 && acc.numArrows < -3)) {
+            acc.numSharps = acc.numSharps - 1 ;
+            acc.numArrows = acc.numArrows + 8;
+        }
+        if (edo == 93 && (acc.numSharps < 2 && acc.numArrows > 3)) {
+            acc.numSharps = acc.numSharps + 1 ;
+            acc.numArrows = acc.numArrows-6;
+        }
+        if (edo == 93 && (acc.numSharps < 2 && acc.numArrows < -3)) {
+            acc.numSharps = acc.numSharps - 1 ;
+            acc.numArrows = acc.numArrows+6;
+        }
+        if (edo == 117 && (acc.numSharps < 2 && acc.numArrows > 3)) {
+            acc.numSharps = acc.numSharps + 1 ;
+            acc.numArrows = acc.numArrows-8;
+        }
+        if (edo == 117 && (acc.numSharps > -2 && acc.numArrows < -3)) {
+            acc.numSharps = acc.numSharps - 1 ;
+            acc.numArrows = acc.numArrows+8;
         }
         // if no such accidental exists, it will return null.
         var a = constructAccidental(acc.numSharps, acc.numArrows);

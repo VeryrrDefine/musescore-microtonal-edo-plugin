@@ -395,7 +395,7 @@ For example, in 31-edo, where the sharpness rating is sharp-2:
 
 -------------
 
-## Appendix A: List of supported EDOs according to sharpness classification.
+## Appendix A: List of 1-150 EDOs according to sharpness classification.
 
 | Sharpness (steps of an apotome) | EDOs |
 | -------:  | :------- |
@@ -410,8 +410,24 @@ For example, in 31-edo, where the sharpness rating is sharp-2:
 | sharp-6 | 30, 37, 44, 51, 58, 65, 72, 79, 86, 93, 100 |
 | sharp-7 | 42, 49, 56, 63, 70, 77, 84, 91, 98, 105 |
 | sharp-8 | 54, 61, 68, 75, 82, 89, 96, 103, 110, 117 |
-
+| sharp-9 | 59, 66, 73, 80, 87, 94, 101, 108, 115, 122, 129 |
+| sharp-10 | 71, 78, 85, 92, 99, 106, 113, 120, 127, 134, 141  |
+| sharp-11 | 83, 90, 97, 104, 111, 118, 125, 132, 139, 146  |
+| sharp-12 | 95, 102, 109, 116, 123, 130, 137, 144  |
+| sharp-13 | 107, 114, 121, 128, 135, 142, 149  |
+| sharp-14 | 112, 119, 126, 133, 140, 147  |
+| sharp-15 | 124, 131, 138, 145  |
+| sharp-16 | 136, 143, 150  |
+| sharp-17 | 148  |
 ---------------
+## Appendix B: sharpness support
+
+flat-2 to sharp-10: Perfect
+sharp-11: no xv6
+sharp-12: Perfect?
+sharp-13: no xv6
+sharp-14: bug when scale ascending in 182 edo(sharp-14)
+sharp-15+: bug when scale ascending and descending
 
 ## Note to self / developers:
 

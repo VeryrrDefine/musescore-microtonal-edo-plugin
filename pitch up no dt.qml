@@ -312,6 +312,8 @@ MuseScore {
           return -sharpValue + 6;
         case 'bb^6':
           return -2*sharpValue + 6
+        case '#v6':
+          return sharpValue - 6;
         default:
           return null;
         }
@@ -471,6 +473,8 @@ MuseScore {
           return Accidental.LOWER_ONE_TRIDECIMAL_QUARTERTONE ;
         case 'bb^6':
           return Accidental.SEVEN_TWELFTH_FLAT;
+        case '#v6':
+          return Accidental.FIVE_TWELFTH_SHARP;
         default:
           return Accidental.NATURAL;
         }
@@ -700,6 +704,9 @@ MuseScore {
         case Accidental.SEVEN_TWELFTH_FLAT: // bb^6
           accOffset = -2*sharpValue + 6;
           break;
+        case Accidental.FIVE_TWELFTH_SHARP: // #v6
+          accOffset = sharpValue - 6;
+          break;
         /* template tune n-edo case end */
         }
 
@@ -814,6 +821,8 @@ MuseScore {
           }
         } else if (numSharps == 1) {
           switch(numArrows) {
+          case -6:
+            return Accidental.FIVE_TWELFTH_SHARP;
           case -5:
             return Accidental.RAISE_ONE_UNDECIMAL_QUARTERTONE; // Addon 2
           case -4:
@@ -1034,6 +1043,8 @@ MuseScore {
           return a(-1, 6)
         case Accidental.SEVEN_TWELFTH_FLAT: // bb^6
           return a(-2, 6)
+        case Accidental.FIVE_TWELFTH_SHARP: // #v6
+          return a(1, -6)
         }
       }
 
@@ -1277,6 +1288,8 @@ MuseScore {
           return 'b^6'
         case Accidental.SEVEN_TWELFTH_FLAT:
           return 'bb^6'
+        case Accidental.FIVE_TWELFTH_SHARP:
+          return '#v6'
         case Accidental.NONE:
           return 'none';
         default:
@@ -1383,12 +1396,12 @@ MuseScore {
         // make sure the number of arrows are valid. (from -3 to +3) (Addon: change to -4 ~ +4)
         // NOTE: will possibly return null from here if edo is perfect (sharp-0)
         if (sharpValue > 0) {
-          if (acc.numArrows > 4 && acc.numArrows - sharpValue >= -4 && acc.numArrows - sharpValue <= 4 && acc.numSharps < 2)
+          if (acc.numArrows > 6 && acc.numArrows - sharpValue >= -6 && acc.numArrows - sharpValue <= 6 && acc.numSharps < 2)
             return constructAccidental(acc.numSharps + 1, acc.numArrows - sharpValue);
-          else if (acc.numArrows < -4 && acc.numArrows + sharpValue >= -4 && acc.numArrows + sharpValue <= 4 && acc.numSharps > -2)
+          else if (acc.numArrows < -6 && acc.numArrows + sharpValue >= -6 && acc.numArrows + sharpValue <= 6 && acc.numSharps > -2)
             return constructAccidental(acc.numSharps - 1, acc.numArrows + sharpValue);
         } else if (sharpValue < 0) {
-          if (acc.numArrows > 6 && acc.numArrows + sharpValue >= -6 && acc.numArrows + sharpValue <= 5 && acc.numSharps > -2)
+          if (acc.numArrows > 6 && acc.numArrows + sharpValue >= -6 && acc.numArrows + sharpValue <= 6 && acc.numSharps > -2)
             return constructAccidental(acc.numSharps - 1, acc.numArrows + sharpValue);
           else if (acc.numArrows < -6 && acc.numArrows - sharpValue >= -6 && acc.numArrows - sharpValue <= 6 && acc.numSharps < 2)
             return constructAccidental(acc.numSharps + 1, acc.numArrows - sharpValue);
@@ -1398,21 +1411,60 @@ MuseScore {
         
 
         // hardcoded accidental replacing
-        if ((edo == 12 || edo == 19) && (acc.numSharps == 0 && acc.numArrows == -1)) {
+        if ((edo != 5 && sharpValue == 1) && (acc.numSharps == 0 && acc.numArrows == -1)) {
             acc.numSharps = -1;
             acc.numArrows = 0;
         }
-        if ((edo == 12 || edo == 19) && (acc.numSharps == -1 && acc.numArrows == -1)) {
+        if ((edo != 5 && sharpValue == 1) && (acc.numSharps == -1 && acc.numArrows == -1)) {
             acc.numSharps = -2;
             acc.numArrows = 0;
         }
-        if (edo == 31 && (acc.numSharps == 0 && acc.numArrows == -2)) {
+        if ((edo > 10 && sharpValue == 2) && (acc.numSharps == 0 && acc.numArrows == -2)) {
             acc.numSharps = -1;
             acc.numArrows = 0;
         }
-        if (edo == 31 && (acc.numSharps == -1 && acc.numArrows == -2)) {
+        if ((edo > 10 && sharpValue == 2) && (acc.numSharps == -1 && acc.numArrows == -2)) {
             acc.numSharps = -2;
             acc.numArrows = 0;
+        }
+        if (edo == 93 && (acc.numSharps == 0 && acc.numArrows == -6)) {
+            acc.numSharps = acc.numSharps -1 ;
+            acc.numArrows = 0;
+        }
+
+        // make it beautiful(arrows only)
+        
+        if (edo == 53 && (acc.numSharps < 2 && acc.numArrows > 3)) {
+            acc.numSharps = acc.numSharps + 1 ;
+            acc.numArrows = acc.numArrows - 5;
+        }
+        if (edo == 53 && (acc.numSharps > -2 && acc.numArrows < -3)) {
+            acc.numSharps = acc.numSharps - 1 ;
+            acc.numArrows = acc.numArrows + 5;
+        }
+        if (edo == 54 && (acc.numSharps < 2 && acc.numArrows > 3)) {
+            acc.numSharps = acc.numSharps + 1 ;
+            acc.numArrows = acc.numArrows - 8;
+        }
+        if (edo == 54 && (acc.numSharps > -2 && acc.numArrows < -3)) {
+            acc.numSharps = acc.numSharps - 1 ;
+            acc.numArrows = acc.numArrows + 8;
+        }
+        if (edo == 93 && (acc.numSharps < 2 && acc.numArrows > 3)) {
+            acc.numSharps = acc.numSharps + 1 ;
+            acc.numArrows = acc.numArrows-6;
+        }
+        if (edo == 93 && (acc.numSharps < 2 && acc.numArrows < -3)) {
+            acc.numSharps = acc.numSharps - 1 ;
+            acc.numArrows = acc.numArrows+6;
+        }
+        if (edo == 117 && (acc.numSharps < 2 && acc.numArrows > 3)) {
+            acc.numSharps = acc.numSharps + 1 ;
+            acc.numArrows = acc.numArrows-8;
+        }
+        if (edo == 117 && (acc.numSharps > -2 && acc.numArrows < -3)) {
+            acc.numSharps = acc.numSharps - 1 ;
+            acc.numArrows = acc.numArrows+8;
         }
         // if no such accidental exists, it will return null.
         var a = constructAccidental(acc.numSharps, acc.numArrows);
